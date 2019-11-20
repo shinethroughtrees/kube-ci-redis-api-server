@@ -6,3 +6,14 @@ services:
     build:
       context: ./redis-server
       dockerfile: Dockerfile.dev
+    ports:
+      - "8080:8080"
+  client:
+    build:
+      dockerfile: Dockerfile.dev
+      context: ./client
+    volumes:
+      - /app/node_modules
+      - ./client:/app
+    ports:
+      - "3000:3000"
