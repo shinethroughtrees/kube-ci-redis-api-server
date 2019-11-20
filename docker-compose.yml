@@ -1,0 +1,8 @@
+version: '3'
+services:
+  redis:
+    image: 'redis'
+  server:
+    build:
+      context: ./redis-server
+      dockerfile: Dockerfile.dev
