@@ -1,0 +1,3 @@
+[submodule "graphql-mongo-api"]
+	path = graphql-mongo-api
+	url = https://bitbucket.smartauth.co.kr/scm/def2/graphql-mongo-api.git

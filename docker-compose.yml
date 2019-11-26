@@ -1,5 +1,8 @@
 version: '3'
 services:
+  mongoDB:
+    image: 'mongo'
+    container_name: 'mongo-database'
   redis:
     image: 'redis'
   nginx:
@@ -20,3 +23,8 @@ services:
     volumes:
       - /app/node_modules
       - ./client:/app
+  graphql:
+    restart: always
+    build:
+      dockerfile: Dockerfile.dev
+      context: ./graphql-mongo-api
