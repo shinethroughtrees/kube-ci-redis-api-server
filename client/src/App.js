@@ -1,25 +1,41 @@
 import React from 'react';
+import { ApolloClient } from 'apollo-client';
+import { InMemoryCache } from 'apollo-cache-inmemory';
+import { ApolloProvider } from 'react-apollo';
+import { split } from 'apollo-link';
+import { HttpLink } from 'apollo-link-http';
+import { WebSocketLink } from 'apollo-link-ws';
+import { getMainDefinition } from 'apollo-utilities';
+import Home from './Pages/Home';
 import logo from './logo.svg';
 import './App.css';
+const httpLink = new HttpLink({
+  uri: "http://graphqlserver:4000/graphql"
+});
+const wsLink = new WebSocketLink({
+  uri: `ws://graphqlserver:4001/subscriptions`,
+  options: {
+    reconnect: true
+  }
+});
+const link= split(
+  ({ query }) => {
+    const { kind, operation } = getMainDefinition(query);
+    return kind === "OperationDefinition" && operation === "subscription";
+  },
+  wsLink,
+  httpLink
+);
+const client = new ApolloClient({
+  link,
+  cache: new InMemoryCache()
+});
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          kube ci integration
-        </p>
-        <a
-          className="App-link"
-          href="https://github.com/shinethroughtrees/kube-ci-redis-api-server"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Github Repository
-        </a>
-      </header>
-    </div>
+    <ApolloProvider client={client}>
+      <Home />
+    </ApolloProvider>
   );
 }
 

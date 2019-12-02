@@ -23,8 +23,13 @@ services:
     volumes:
       - /app/node_modules
       - ./client:/app
-  graphql:
+  graphqlserver:
     restart: always
     build:
       dockerfile: Dockerfile.dev
       context: ./graphql-mongo-api
+  websocket:
+    restart: always
+    build:
+      dockerfile: Dockerfile.dev
+      context: ./websocket
