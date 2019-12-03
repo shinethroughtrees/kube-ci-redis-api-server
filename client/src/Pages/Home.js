@@ -1,8 +1,8 @@
 import React from 'react';
-
+import GroupList from '../components/GroupList';
 class Home extends React.Component {
   render() {
-    return <p>Home Page</p>
+    return <GroupList />
   }
 }
 

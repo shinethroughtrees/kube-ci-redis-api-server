@@ -24,6 +24,7 @@ services:
       - /app/node_modules
       - ./client:/app
   graphqlserver:
+    container_name: graphqlserver
     restart: always
     build:
       dockerfile: Dockerfile.dev
