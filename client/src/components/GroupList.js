@@ -3,17 +3,18 @@ import { Query } from 'react-apollo';
 import gql from 'graphql-tag';
 
 const QUERY = gql`
-  query getAllGroups
+  query groups
   {
-    getAllGroups {
-      id
+    groups {
+      title
     }
   }
   `;
 const SUBSCRIPTION = gql`
-  subscription getAllGroups {
-    getAllGroups {
-      id
+  subscription group {
+    group {
+      title
+      description
     }
   }
 `;
@@ -24,7 +25,7 @@ class GroupList extends React.Component {
   render() {
     const { data, error, loading } = this.props;
     console.log("data => ", data);
-    if(!data || !data.id) {
+    if(!data ||!data.title) {
       return <p> data is empty</p>;
     }
     if(loading) {
@@ -34,7 +35,7 @@ class GroupList extends React.Component {
       return <p> Error! </p>;
     }
     return (
-      <p> data.id </p>
+      <p> data.title </p>
     )
   }
 }

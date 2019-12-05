@@ -10,10 +10,10 @@ import Home from './Pages/Home';
 import logo from './logo.svg';
 import './App.css';
 const httpLink = new HttpLink({
-  uri: "http://localhost:3050/graphql"
+  uri: "http://localhost:3050/graphql/graphql"
 });
 const wsLink = new WebSocketLink({
-  uri: "ws://localhost:3050/subscriptions/graphql",
+  uri: "ws://localhost:3050/subscription/graphql",
   options: {
     reconnect: true
   }
