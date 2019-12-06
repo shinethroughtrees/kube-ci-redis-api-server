@@ -1,15 +1,7 @@
 import React from 'react';
-import { Query } from 'react-apollo';
-import gql from 'graphql-tag';
+import { useSubscription } from '@apollo/react-hooks';
+import { gql } from 'apollo-boost';
 
-const QUERY = gql`
-  query groups
-  {
-    groups {
-      title
-    }
-  }
-  `;
 const SUBSCRIPTION = gql`
   subscription group {
     group {
@@ -18,45 +10,16 @@ const SUBSCRIPTION = gql`
     }
   }
 `;
-class GroupList extends React.Component {
-  componentDidMount() {
-    this.props.subscribeToNewData();
-  }
-  render() {
-    const { data, error, loading } = this.props;
-    console.log("data => ", data);
-    if(!data ||!data.title) {
-      return <p> data is empty</p>;
-    }
-    if(loading) {
-      return <p> Loading ~~ </p>;
-    }
-    if(error) {
-      return <p> Error! </p>;
-    }
+const GroupListContainer = () => {
+  const { data, loading, error } = useSubscription(SUBSCRIPTION);
+  console.log(data);
+  if(data){
     return (
-      <p> data.title </p>
-    )
+      <div>
+        <p> {data.group.title} </p>
+      </div>
+      );
   }
-}
-const GroupListContainer = () => (
-  <div>
-    <Query query= {QUERY}>
-      {({ subscribeToMore, ...result }) => (
-        <GroupList
-          {...result}
-          subscribeToNewData = {() => 
-            subscribeToMore({
-              document: SUBSCRIPTION,
-              updateQuery: (prev, { subscriptionData }) => {
-                if(!subscriptionData.data) return prev;
-                return subscriptionData.data;
-              }
-            })
-          }
-        />
-      )}
-    </Query>
-  </div>
-);
+  return <p> no data </p>
+};
 export default GroupListContainer;

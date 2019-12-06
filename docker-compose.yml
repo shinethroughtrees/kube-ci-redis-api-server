@@ -5,7 +5,9 @@ services:
     container_name: 'mongo-database'
   redis:
     image: 'redis'
+    container_name: 'redis-server'
   nginx:
+    container_name: 'nginx-server'
     restart: always
     build: 
       context: ./nginx
@@ -13,10 +15,12 @@ services:
     ports:
       - '3050:80'
   api:
+    container_name: 'api-server'
     build:
       context: ./api
       dockerfile: Dockerfile.dev
   client:
+    container_name: 'client'
     build:
       dockerfile: Dockerfile.dev
       context: ./client
@@ -30,6 +34,7 @@ services:
       dockerfile: Dockerfile.dev
       context: ./graphql-mongo-api
   websocket:
+    container_name: 'websocket'
     restart: always
     build:
       dockerfile: Dockerfile.dev
